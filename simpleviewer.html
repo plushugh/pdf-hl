@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <title>PDF</title>
+
+    <style>
+      body {
+        background-color: #808080;
+        margin: 0;
+        padding: 0;
+      }
+      #viewerContainer {
+        overflow: auto;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf_viewer.css"
+      integrity="sha512-CWsS97AlgjAjjwqi38kjboS8Kz0aU84/iahk4FUfjxFCeSGuyoDaQkIZvgjKZrVUDVA8Hx2Kl7JrS6rlH19z3A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.js"
+      integrity="sha512-P/HN5l+O8ovwpe3layxRDin3RTk1kbHlnxe3KBmqqhjrVUebBE769mPVvGO5qcZGJG4uJAppkmchRMrFainTFg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf_viewer.js"
+      integrity="sha512-WBiA7Xu6uie6Tk2fqnQnXHWbDFrkzDMlUfALYEJI9/eQtQ4kHcO1AbZA9wGqQ48Nkx7EUs9dXSAvW50ZYIQq+A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <style>
+      #tools {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+      }
+    </style>
+  </head>
+
+  <body tabindex="1">
+    <div id="tools">
+      <button id="search">find</button>
+      <input type="text" id="input" />
+      <button id="search2">Search</button>
+    </div>
+    <div id="viewerContainer">
+      <div id="viewer" class="pdfViewer"></div>
+    </div>
+
+    <script type="module" src="simpleviewer.mjs"></script>
+    <!-- <iframe -->
+    <!--   src="https://mozilla.github.io/pdf.js/web/viewer.html#page=3&zoom=page-width&search=mov" -->
+    <!--   height="1000" -->
+    <!--   width="800" -->
+    <!--   frameborder="0" -->
+    <!-- /> -->
+  </body>
+</html>
