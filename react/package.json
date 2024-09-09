@@ -1,14 +1,30 @@
 {
-  "name": "react",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
-  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "and_chr >= 45",
+    "not and_chr < 45",
+    "chrome >= 57",
+    "not chrome < 45",
+    "and_ff >= 43",
+    "not and_ff < 43",
+    "firefox >= 52",
+    "not firefox < 43",
+    "edge >= 79",
+    "not edge < 79",
+    "ios_saf >= 10",
+    "not ios_saf < 10",
+    "safari >= 12",
+    "not safari < 12",
+    "android >= 5",
+    "not android < 5",
+    "and_uc >= 11",
+    "not and_uc < 11",
+    "not ie > 0",
+    "not ie_mob > 0",
+    "not op_mini all"
+  ],
   "dependencies": {
     "pdfjs-dist": "^4.6.82",
     "react": "^18.3.1",
@@ -26,5 +42,15 @@
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.0.1",
     "vite": "^5.4.1"
-  }
+  },
+  "name": "react",
+  "private": true,
+  "scripts": {
+    "build": "tsc -b && vite build",
+    "dev": "vite",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "type": "module",
+  "version": "0.0.0"
 }

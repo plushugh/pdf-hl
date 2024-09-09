@@ -65,13 +65,13 @@ const PDFHL: React.FC<IProps> = ({ pdfUrl, highlightSearch }) => {
           query: highlightSearch,
         });
       }, 100); // HACK: only accepts a find event after a delay, maybe pagesinit is not the right event
-      globalThis.EB = eventBus;
+      // globalThis.EB = eventBus; // DEBUG
 
       setEventBusInstance(eventBus);
       // setPDFViewerInstance(pdfViewer);
       // setFindControllerInstance(pdfFindController);
     });
-  }, [pdfUrl]);
+  }, [pdfUrl, highlightSearch]);
 
   useEffect(() => {
     const refCopy = containerRef.current;
@@ -120,4 +120,5 @@ const PDFHL: React.FC<IProps> = ({ pdfUrl, highlightSearch }) => {
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export default PDFHL;
