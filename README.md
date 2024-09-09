@@ -25,3 +25,8 @@
 Classes to style:
 classes for first match: `highlight selected appended`
 classes for other matches: `highlight appended`
+
+### Running
+
+- Plain impls: run a webserver at repo root: `npx http-server`
+- React impl: `cd react && pnpm i && pnpm dev`
