@@ -57,6 +57,16 @@ const PDFHL: React.FC<IProps> = ({ pdfUrl, highlightSearch }) => {
     eventBus.on("pagesinit", function () {
       pdfViewer.currentScaleValue = "page-width";
 
+      setTimeout(() => {
+        eventBus.dispatch("find", {
+          caseSensitive: false,
+          highlightAll: true,
+          phraseSearch: true,
+          query: highlightSearch,
+        });
+      }, 100); // HACK: only accepts a find event after a delay, maybe pagesinit is not the right event
+      globalThis.EB = eventBus;
+
       setEventBusInstance(eventBus);
       // setPDFViewerInstance(pdfViewer);
       // setFindControllerInstance(pdfFindController);
@@ -66,7 +76,6 @@ const PDFHL: React.FC<IProps> = ({ pdfUrl, highlightSearch }) => {
   useEffect(() => {
     const refCopy = containerRef.current;
     loadPDF();
-    // TODO: Find event does not scroll into view
     // TODO: unmount pdf viewer instance correctly, i.e.remounting in strictmode results in page 1 2 3 1 2 3 being rendered twice
     // HACK: not good
     return () => {
@@ -85,7 +94,6 @@ const PDFHL: React.FC<IProps> = ({ pdfUrl, highlightSearch }) => {
           left: "10px",
         }}
         onClick={() => {
-          console.log(eventBusInstance);
           eventBusInstance?.dispatch("find", {
             caseSensitive: false,
             findPrevious: undefined,
