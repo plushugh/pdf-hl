@@ -1,12 +1,17 @@
 # 2 PDF highlighter Implmentations
 
-## Plain Impl (old pdf.js version)
+## Plain Impl (old pdf.js version) (simpleviewer.html)
 
 - Uses decrepated `findController.executeCommand("find", args)`
 - Scrolls into view correctly
 - Line breaks needs a <20> (space) in order to be highlighted (i.e. copying from pdf render and searching wont work, but adding a space to each line break will)
 - Searches for the first instance of the phrase and highlights it, (or all, configurable)
 - Can style the highlight as pdfjs renders the highlights into spans
+
+## Plain Impl (new pdf.js version) (newviewer.html)
+
+- Uses `eventBus.dispatch("find", args)`
+- Works correctly, and scrolls into view correctly
 
 ## React Impl (latest pdfjs-dist)
 
