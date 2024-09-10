@@ -20,7 +20,6 @@ interface IProps {
   highlightSearch: string;
 }
 
-// FIXME: Does not do the search initially
 const PDFHL: React.FC<IProps> = ({ pdfUrl, highlightSearch }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [eventBusInstance, setEventBusInstance] =
@@ -66,6 +65,14 @@ const PDFHL: React.FC<IProps> = ({ pdfUrl, highlightSearch }) => {
     pdfLinkService.setDocument(pdfDocumentInstance, null);
     pdfFindController.setDocument(pdfDocumentInstance);
 
+    // Text to fuzzy search against:
+    // Do pdfFindController.#extractText();
+    // which would be called when we first dispatch find *internally* by pdfjs
+    // Can't call directyly since its private
+    // could just search ""
+    // pdfFindController._pageContents: string[] (indexed by page number)
+    // is the text content that the controller will use to search against *internally* by pdfjs
+
     eventBus.on("pagesinit", function () {
       pdfViewer.currentScaleValue = "page-width";
       setEventBusInstance(eventBus);
@@ -86,6 +93,21 @@ const PDFHL: React.FC<IProps> = ({ pdfUrl, highlightSearch }) => {
       query: highlightSearch,
     });
   }, [highlightSearch, eventBusInstance]);
+
+  useEffect(() => {
+    if (eventBusInstance == null) return;
+    eventBusInstance.on("pagerendered", function () {
+      eventBusInstance.dispatch("find", {
+        caseSensitive: false,
+        findPrevious: undefined,
+        highlightAll: true,
+        phraseSearch: true,
+        query: highlightSearch,
+      });
+    });
+    // Only have to run once, ignoring highlightSearch changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [eventBusInstance]);
 
   return (
     <>

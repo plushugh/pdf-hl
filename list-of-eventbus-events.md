@@ -1,0 +1,82 @@
+
+# List of PDF.js eventbus events
+
+Got by capturing with `(dispatch|on)\("(.*)"` on all js files the web/ directory of pdf.js source code
+
+## Full list
+
+- resize
+- switchannotationeditorparams
+- reporttelemetry
+- annotationeditorparamschanged
+- fileinputchange
+- documenterror
+- documentloaded
+- documentinit
+- metadataloaded
+- hashchange
+- beforeprint
+- afterprint
+- pagerender
+- pagerendered
+- updateviewarea
+- pagechanging
+- scalechanging
+- rotationchanging
+- sidebarviewchanged
+- pagemode
+- namedaction
+- presentationmode
+- print
+- download
+- firstpage
+- lastpage
+- nextpage
+- previouspage
+- zoomin
+- zoomout
+- zoomreset
+- pagenumberchanged
+- rotatecw
+- rotateccw
+- switchscrollmode
+- switchspreadmode
+- imagealttextsettings
+- documentproperties
+- findfromurlhash
+- openfile
+- updatefromsandbox
+- find
+- editingaction
+- loadaiengineprogress
+- enableguessalttext
+- enablealttextmodeldownload
+- setpreference
+- attachmentsloaded
+- cursortoolchanged
+- switchcursortool
+- annotationeditormodechanged
+- presentationmodechanged
+- findbarclose
+- updatetextlayermatches
+- updatefindmatchescount
+- updatefindcontrolstate
+- pagesinit
+- optionalcontentconfigchanged
+- resetlayers
+- togglelayerstree
+- layersloaded
+- optionalcontentconfig
+- toggleoutlinetree
+- pagesloaded
+- outlineloaded
+- sandboxcreated
+- currentoutlineitem
+- thumbnailrendered
+- pagesdestroy
+- scrollmodechanged
+- annotationeditoruimanager
+- spreadmodechanged
+- scalechanged
+- showannotationeditorui
+- toolbardensity
