@@ -24,7 +24,19 @@
 
 Classes to style:
 classes for first match: `highlight selected appended`
+classes for a multiline match `highlight (end|start|middle) selected appended`
 classes for other matches: `highlight appended`
+
+Variables to style (defaults with pdfjs viewer.css):
+
+```css
+.textLayer .highlight {
+  --highlight-bg-color: rgb(180 0 170 / 0.25);
+  --highlight-selected-bg-color: rgb(0 100 0 / 0.25);
+  --highlight-backdrop-filter: none;
+  --highlight-selected-backdrop-filter: none;
+}
+```
 
 ### Running
 
