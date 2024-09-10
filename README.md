@@ -16,9 +16,9 @@
 ## React Impl (latest pdfjs-dist)
 
 - Uses `eventBus.dispatch("find", args)`
-- Unmounts incorrectly, when re-mounting in strictmode dev mode it renders the pages twice, used hack workaround that sets the container's ref's innerHTML to initial when unmounting component
-- Scrolls into view correctly, (but still logs error `offsetParent is not set -- cannot scroll` to console?)
-- caveat: can only fire find event a delay after the pagesinit event or else it does not scroll into view
+- ~~Unmounts incorrectly, when re-mounting in strictmode dev mode it renders the pages twice, used hack workaround that sets the container's ref's innerHTML to initial when unmounting component~~
+- ~~ Scrolls into view correctly, (but still logs error `offsetParent is not set -- cannot scroll` to console?) ~~ Fixed by cleanup, some errors when HMR-ing, no issues in prod
+- caveat: can only fire find event a delay after the pagesinit event or else it does not scroll into view, maybe pagesinit is not a good eventbus event to listen to? currently does not search on render see FIXME
 
 ### Extras
 

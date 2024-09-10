@@ -1,4 +1,4 @@
-import { getDocument, GlobalWorkerOptions, version } from "pdfjs-dist";
+import { getDocument, GlobalWorkerOptions, PDFDocumentProxy } from "pdfjs-dist";
 import "pdfjs-dist/web/pdf_viewer.css";
 import {
   EventBus,
@@ -8,82 +8,84 @@ import {
 } from "pdfjs-dist/web/pdf_viewer.mjs";
 import React, { useCallback, useEffect, useRef } from "react";
 
-// TODO: Copy worker from node_modules using vite copy etc.
-GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${version}/pdf.worker.min.mjs`;
+// SEE https://github.com/wojtekmaj/react-pdf/tree/main/packages/react-pdf
+// GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${version}/pdf.worker.min.mjs`;
+GlobalWorkerOptions.workerSrc = new URL(
+  "pdfjs-dist/build/pdf.worker.min.mjs",
+  import.meta.url
+).toString();
 
 interface IProps {
   pdfUrl: string;
   highlightSearch: string;
 }
 
+// FIXME: Does not do the search initially
 const PDFHL: React.FC<IProps> = ({ pdfUrl, highlightSearch }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [eventBusInstance, setEventBusInstance] =
     React.useState<EventBus | null>(null);
+  const [pdfDocumentInstance, setPdfDocumentInstance] =
+    React.useState<PDFDocumentProxy | null>(null);
 
-  // const [pdfViewerInstance, setPDFViewerInstance] =
-  // React.useState<PDFViewer | null>(null);
+  const loadPDFDocument = useCallback(async () => {
+    const pdf = await getDocument({ url: pdfUrl }).promise;
+    setPdfDocumentInstance(pdf);
+    return pdf;
+  }, [pdfUrl]);
 
-  // const [findControllerInstance, setFindControllerInstance] =
-  //   React.useState<PDFFindController | null>(null);
+  useEffect(() => {
+    const loadPDF = loadPDFDocument();
+    return () => {
+      console.info("cleaning up pdf document");
+      loadPDF.then((pdf) => {
+        pdf.destroy();
+      });
+    };
+  }, [loadPDFDocument]);
 
-  const loadPDF = useCallback(async () => {
-    if (containerRef.current == null) return;
+  useEffect(() => {
+    if (pdfDocumentInstance == null || containerRef.current == null) return;
     const eventBus = new EventBus();
-
     const pdfLinkService = new PDFLinkService({
       eventBus,
     });
-
     const pdfFindController = new PDFFindController({
       eventBus,
       linkService: pdfLinkService,
     });
-
     const pdfViewer = new PDFViewer({
       container: containerRef.current,
       eventBus,
       linkService: pdfLinkService,
       findController: pdfFindController,
     });
-
     pdfLinkService.setViewer(pdfViewer);
 
-    const pdf = await getDocument({ url: pdfUrl }).promise;
-
-    pdfViewer.setDocument(pdf);
-    pdfLinkService.setDocument(pdf, null);
-    pdfFindController.setDocument(pdf);
+    pdfViewer.setDocument(pdfDocumentInstance);
+    pdfLinkService.setDocument(pdfDocumentInstance, null);
+    pdfFindController.setDocument(pdfDocumentInstance);
 
     eventBus.on("pagesinit", function () {
       pdfViewer.currentScaleValue = "page-width";
-
-      setTimeout(() => {
-        eventBus.dispatch("find", {
-          caseSensitive: false,
-          highlightAll: true,
-          phraseSearch: true,
-          query: highlightSearch,
-        });
-      }, 100); // HACK: only accepts a find event after a delay, maybe pagesinit is not the right event
-      // globalThis.EB = eventBus; // DEBUG
-
       setEventBusInstance(eventBus);
-      // setPDFViewerInstance(pdfViewer);
-      // setFindControllerInstance(pdfFindController);
     });
-  }, [pdfUrl, highlightSearch]);
+
+    return () => {
+      console.info("cleaning up");
+      pdfViewer.cleanup();
+    };
+  }, [pdfDocumentInstance]);
 
   useEffect(() => {
-    const refCopy = containerRef.current;
-    loadPDF();
-    // TODO: unmount pdf viewer instance correctly, i.e.remounting in strictmode results in page 1 2 3 1 2 3 being rendered twice
-    // HACK: not good
-    return () => {
-      if (refCopy)
-        refCopy.innerHTML = '<div class="pdfViewer" id="viewer"></div>';
-    };
-  }, [loadPDF]);
+    eventBusInstance?.dispatch("find", {
+      caseSensitive: false,
+      findPrevious: undefined,
+      highlightAll: true,
+      phraseSearch: true,
+      query: highlightSearch,
+    });
+  }, [highlightSearch, eventBusInstance]);
 
   return (
     <>
@@ -123,5 +125,6 @@ const PDFHL: React.FC<IProps> = ({ pdfUrl, highlightSearch }) => {
   );
 };
 
+// eslint thinks this component name is a constant
 // eslint-disable-next-line react-refresh/only-export-components
 export default PDFHL;
