@@ -8,6 +8,7 @@ import {
 } from "pdfjs-dist/web/pdf_viewer.mjs";
 import React, { useCallback, useEffect, useRef } from "react";
 
+// TODO: Copy worker from node_modules using vite copy etc.
 GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${version}/pdf.worker.min.mjs`;
 
 interface IProps {
@@ -105,16 +106,18 @@ const PDFHL: React.FC<IProps> = ({ pdfUrl, highlightSearch }) => {
       >
         Search
       </button>
-      <div
-        ref={containerRef}
-        style={{
-          position: "absolute",
-          overflow: "auto",
-          width: "100%",
-          height: "100%",
-        }}
-      >
-        <div className="pdfViewer" id="viewer"></div>
+      <div>
+        <div
+          ref={containerRef}
+          style={{
+            position: "absolute",
+            overflow: "auto",
+            width: "100%",
+            height: "100%",
+          }}
+        >
+          <div className="pdfViewer" id="viewer"></div>
+        </div>
       </div>
     </>
   );
