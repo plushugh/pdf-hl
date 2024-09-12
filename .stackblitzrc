@@ -1,3 +1,3 @@
 {
-    "startCommand": "pnpx http-server & cd react && pnpm install && pnpm dev"
+    "startCommand": "pnpx concurrently \"pnpx http-server\" \"cd react && pnpm install && pnpm dev\""
 }
